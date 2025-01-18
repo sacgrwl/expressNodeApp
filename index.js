@@ -2,6 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+const http = require(http);
+const server = http.createServer(app);
+
+app.use(cors({origin:[" "] ], methods: ["GET", "POST"]}));
+app.use(express.json()); 
 
 app.get('/', (req, res)=> {
     res.send("server is running")
@@ -17,6 +22,11 @@ mongoose
 .catch((error) => {
     console.error("MongoDB Connection Error:", error.message);
     process.exit(1); // Exit if the database connection fails 
+});
+
+// Root route
+app.get('/', (req, res) => {
+    res.send("Server is running");
 });
 
 //Middleware
