@@ -5,7 +5,7 @@ const app = express();
 const http = require(http);
 const server = http.createServer(app);
 
-app.use(cors({origin:[" "] ], methods: ["GET", "POST"]}));
+app.use(cors({origin:[" "], methods: ["GET", "POST"]}));
 app.use(express.json()); 
 
 app.get('/', (req, res)=> {
