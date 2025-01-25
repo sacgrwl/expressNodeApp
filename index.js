@@ -1,48 +1,39 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
-const http = require(http);
-const server = http.createServer(app);
 
-app.use(cors({origin:[" "], methods: ["GET", "POST"]}));
-app.use(express.json()); 
+const app = express(); // Initialize Express app
 
-app.get('/', (req, res)=> {
-    res.send("server is running")
-});
+// Middleware
+app.use(cors({ origin: "*", methods: ["GET", "POST"] })); // Allow all origins for testing
+app.use(express.json()); // Parse incoming JSON data
 
-// connection to MongDB
+// Import API routes
+const submitTalentForm = require("./API/submit");
+
+// MongoDB connection
 mongoose
-.connect("mongodb+srv://saacgirwel21:saacgirwel21@cluster0.czxmp.mongodb.net/",{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log("MongoDB Connected"))
-.catch((error) => {
-    console.error("MongoDB Connection Error:", error.message);
-    process.exit(1); // Exit if the database connection fails 
-});
+    .connect("mongodb+srv://saacgirwel21:saacgirwel21@cluster0.czxmp.mongodb.net/isaacDB", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log("MongoDB Connected"))
+    .catch((error) => {
+        console.error("MongoDB Connection Error:", error.message);
+        process.exit(1); // Exit if the database connection fails
+    });
 
 // Root route
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.send("Server is running");
 });
 
-//Middleware
-app.use(cors());
-app.use(express.json());
-
-// Import API folder
-const submitTalentForm = require('./API/submit')
-
-//API
-app.use("/submit", submitWorkoutTracker);
+// API routes
+app.use("/submit", submitTalentForm);
 
 // Start the server
-
-const PORT = 5000;
+const PORT = 8080;
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-})
+});

@@ -1,36 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const Form = require("../models/Form"); // Ensure you import your Form model
+const Workout = require("../Models/workoutTracker");
 
-// POST route to submit a form
+// Route to handle workout submissions
 router.post("/", async (req, res) => {
-    const { name, age, email, talent } = req.body;
+    const { workoutType, duration, date } = req.body;
 
-    // Validate input data
-    if (!name || !age || !email || !talent) {
-        return res.status(400).json({ message: "All fields are required." });
+    if (!workoutType || !duration || !date) {
+        return res.status(400).json({ error: "All fields are required." });
     }
 
     try {
-        // Create a new form entry
-        const formEntry = new Form({ name, age, email, talent });
-        const savedEntry = await formEntry.save(); // Save to MongoDB
-
-        console.log("Saved Data:", savedEntry);
-        return res.status(201).json({
-            message: "Form submitted successfully",
-            data: savedEntry
-        });
+        const newWorkout = new Workout({ workoutType, duration, date });
+        const savedWorkout = await newWorkout.save();
+        res.status(201).json({ message: "Workout logged successfully!", workout: savedWorkout });
     } catch (error) {
-        console.error("Error saving form data:", error);
+        console.error("Error saving workout:", error);
+        res.status(500).json({ error: "Failed to save workout." });
+    }
+});
 
-        // Handle duplicate email error (if email is unique in the schema)
-        if (error.code === 11000) {
-            return res.status(400).json({ message: "Email already exists!" });
-        }
-
-        // Handle other potential errors
-        return res.status(500).json({ message: "An error occurred while saving the form data." });
+// Route to fetch all logged workouts (optional)
+router.get("/", async (req, res) => {
+    try {
+        const workouts = await Workout.find();
+        res.status(200).json(workouts);
+    } catch (error) {
+        console.error("Error fetching workouts:", error);
+        res.status(500).json({ error: "Failed to fetch workouts." });
     }
 });
 
