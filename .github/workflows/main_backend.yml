@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - WorkoutTrackerAPI
+name: Build and deploy Node.js app to Azure Web App - backEND
 
 on:
   push:
@@ -57,15 +57,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BD602016CB404584986A63D2DE827314 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_942C226A40DB441888772BA394C80BDF }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_84BE0025342541049A294C44C9DC2FCE }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A774F4B21E3C45D9A5923616491099FA }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_178A846664D44523838D1B728CA44116 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FD64C58F16EA40BC8AC383D7E9D506F4 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'WorkoutTrackerAPI'
+          app-name: 'backEND'
           slot-name: 'Production'
           package: .
           
