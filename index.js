@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express(); // Initialize Express app
+const http = require('http');
+const server = http.createServer(app);
 
 // Middleware
 app.use(cors({ origin: "*", methods: ["GET", "POST"] })); // Allow all origins for testing
@@ -32,8 +34,8 @@ app.get("/", (req, res) => {
 app.use("/submit", submitTalentForm);
 
 // Start the server
-const PORT = 8080;
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on ${PORT}`);
 });
